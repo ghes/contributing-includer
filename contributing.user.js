@@ -39,7 +39,10 @@ function importContributing(resDoc,href) {
     var h3 = document.createElement('h3');
     var namespan = document.createElement('a');
     namespan.href = href;
-    namespan.textContent = href.slice(href.lastIndexOf('/')+1);
+    namespan.textContent = ' '+href.slice(href.lastIndexOf('/')+1);
+    var icon = document.createElement('span');
+    icon.className = 'octicon octicon-megaphone';
+    namespan.insertBefore(icon, namespan.firstChild);
 
     // TODO: Rewrite all relative links to be
     // relative to the original location
