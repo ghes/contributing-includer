@@ -15,15 +15,18 @@
 // This work may be used freely as long as this notice is included.
 // The work is provided "as is" without warranty, express or implied.
 
-var contributing = document.getElementsByClassName('contributing')[0];
-
 function createClearfix () {
   var cf = document.createElement('div');
   cf.className = 'meta clearfix';
   return cf;
 }
 
-function importContributing(resDoc,href,cb) {
+function getContributingLink(doc){
+  var message = doc.getElementsByClassName('contributing')[0];
+  return message && message.getElementsByTagName('a')[0];
+}
+
+function importContributing(resDoc,href) {
   var readme = resDoc.getElementById('readme');
 
   if (readme) {
@@ -53,24 +56,25 @@ function importContributing(resDoc,href,cb) {
 
     container.appendChild(createClearfix());
     container.appendChild(readme);
-    cb();
   }
 }
 
-function getAndImportContributing(href,cb) {
+function getDocument(href,cb) {
   var request = new XMLHttpRequest();
   request.addEventListener('load', function(){
-    importContributing(request.response,
-      href, cb);
+    cb(request.response);
   });
   request.open('GET',href,true);
   request.responseType = 'document';
   request.send();
 }
 
-if (contributing) {
-  var link = contributing.getElementsByTagName('a')[0];
-  getAndImportContributing(link.href, function(){
+var link = getContributingLink(document);
+if (link) {
+  getDocument(link.href, function(resDoc){
+    importContributing(resDoc, link.href);
+
+    // Change the warning to point to the new location
     link.href = '#readme';
     // '#contributing'; // if we could change the ID, which we can't
 
@@ -78,5 +82,34 @@ if (contributing) {
     link.removeAttribute('target');
   });
 } else {
-  // TODO: implement /new/ and /edit/
+  // /new/ and /edit/ don't have a contributing message that would
+  // point us to the CONTRIBUTING file, by default, so we cheat by stealing it
+  // from the New Issue page.
+  // If the repo doesn't accept issues, this'll just have to fail.
+  // (Enforce method because /compare/ can be missing the "contributing"
+  // message, in cases where we don't want it.)
+  var base = /^(https:\/\/github\.com\/[^/]+\/[^/]+)\/(new|edit)/
+    .exec(location.href);
+  if (base){
+    base = base[1];
+
+    getDocument( base + '/issues/new', function(linkResDoc) {
+
+      // We could get the whole Contributing message here, adopt the div,
+      // and add it above the form here, but we don't, for these reasons:
+      // 1. That would push existing elements down, and interfering with click
+      //    targets after page load without user interaction is *the worst*.
+      // 2. Users don't necessarily *want* their change to go through the pull
+      //    request system, so there's no need to boink them about it yet.
+
+      link = getContributingLink(linkResDoc);
+        if (link) {
+          getDocument(link.href, function(readmeResDoc){
+            importContributing(readmeResDoc, link.href);
+
+            // no need to update the link since we're not importing it
+          });
+        }
+    });
+  }
 }
