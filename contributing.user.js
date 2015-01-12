@@ -44,8 +44,13 @@ function importContributing(resDoc,href,cb) {
     h3.appendChild(namespan);
     readme.insertBefore(h3, readme.firstChild);
     // TODO: determine correct way to add contributing to page
-    var container = document.getElementById('new_issue') ||
-        document.getElementById('new_pull_request');
+    var container = document.getElementById('js-repo-pjax-container');
+
+    // Some forms' last element give enough space, some don't
+    // I don't if there'd be a better class to put on the element
+    // or something like that, so we'll just hack it
+    readme.style.marginTop = '15px';
+
     container.appendChild(createClearfix());
     container.appendChild(readme);
     cb();
