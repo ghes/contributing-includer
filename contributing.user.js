@@ -44,12 +44,11 @@ function importContributing(resDoc,href) {
     icon.className = 'octicon octicon-megaphone';
     namespan.insertBefore(icon, namespan.firstChild);
 
-    // TODO: Rewrite all relative links to be
-    // relative to the original location
-
     h3.appendChild(namespan);
     readme.insertBefore(h3, readme.firstChild);
-    // TODO: determine correct way to add contributing to page
+
+    // This is generally the best container to add to for all the pages
+    // we transclude the README into.
     var container = document.getElementById('js-repo-pjax-container');
 
     // Some forms' last element give enough space, some don't
