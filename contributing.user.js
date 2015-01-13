@@ -85,11 +85,10 @@ if (link) {
     link.removeAttribute('target');
   });
 } else {
-  // /new/ and /edit/ don't have a contributing message that would
-  // point us to the CONTRIBUTING file, by default, so we cheat by stealing it
-  // from the New Issue page.
-  // If the repo doesn't accept issues, this'll just have to fail.
-  // (Enforce method because /compare/ can be missing the "contributing"
+  // Editor pages don't have a contributing message that would point us to the
+  // CONTRIBUTING file, by default, so we cheat by stealing it from the New
+  // Issue page. If the repo doesn't accept issues, this'll just have to fail.
+  // (Enforce route because /compare/ can be missing the "contributing"
   // message, in cases where we don't want it.)
   var base = /^(https:\/\/github\.com\/[^/]+\/[^/]+)\/(new|edit|delete)/
     .exec(location.href);
