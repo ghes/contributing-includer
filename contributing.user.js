@@ -8,6 +8,7 @@
 // @match        https://github.com/*/*/compare/*
 // @match        https://github.com/*/*/new/*
 // @match        https://github.com/*/*/edit/*
+// @match        https://github.com/*/*/delete/*
 // @grant        none
 // ==/UserScript==
 
@@ -90,7 +91,7 @@ if (link) {
   // If the repo doesn't accept issues, this'll just have to fail.
   // (Enforce method because /compare/ can be missing the "contributing"
   // message, in cases where we don't want it.)
-  var base = /^(https:\/\/github\.com\/[^/]+\/[^/]+)\/(new|edit)/
+  var base = /^(https:\/\/github\.com\/[^/]+\/[^/]+)\/(new|edit|delete)/
     .exec(location.href);
   if (base){
     base = base[1];
