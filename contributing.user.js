@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GitHub CONTRIBUTING includer
 // @namespace    https://github.com/ghes
-// @version      0.1.0
+// @version      0.1.1
 // @description  Include CONTRIBUTING.md in places you'd contribute
 // @author       Stuart P. Bentley (@stuartpb)
 // @match        https://github.com/*/*/issues/new
@@ -35,7 +35,7 @@ function importContributing(resDoc,href) {
     // readme.id = 'contributing';
 
     readme.className =
-       'boxed-group flush clearfix announce instapaper_body md';
+       'readme boxed-group clearfix announce instapaper_body md';
     document.adoptNode(readme);
     var h3 = document.createElement('h3');
     var namespan = document.createElement('a');
@@ -50,7 +50,8 @@ function importContributing(resDoc,href) {
 
     // This is generally the best container to add to for all the pages
     // we transclude the README into.
-    var container = document.getElementById('js-repo-pjax-container');
+    var container = document.getElementById('js-repo-pjax-container')
+      .querySelector('.container');
 
     // Some forms' last element give enough space, some don't
     // I don't if there'd be a better class to put on the element
