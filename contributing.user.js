@@ -31,8 +31,7 @@ function importContributing(resDoc,href) {
   var readme = resDoc.getElementById('readme');
 
   if (readme) {
-    // `#readme` has specific CSS so we can't change it
-    // readme.id = 'contributing';
+    readme.id = 'contributing';
 
     readme.className =
        'readme boxed-group clearfix announce instapaper_body md';
@@ -79,8 +78,7 @@ if (link) {
     importContributing(resDoc, link.href);
 
     // Change the warning to point to the new location
-    link.href = '#readme';
-    // '#contributing'; // if we could change the ID, which we can't
+    link.href = '#contributing';
 
     // since it's taking them somewhere on this page, remove target=_blank
     link.removeAttribute('target');
